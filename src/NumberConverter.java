@@ -107,12 +107,9 @@ public class NumberConverter {
         // adding the numbers to binaryValue:
         int quotient;
         while (power >= 0){
-            if (decimal - Math.pow(8, power) >= 0) {
-                quotient = decimal / (int) Math.pow(8, power);
-                octalValue += quotient + "";
-                decimal -= Math.pow(8, power) * quotient;
-            }
-            else octalValue += "0";
+            quotient = decimal / (int) Math.pow(8, power);
+            octalValue += quotient + "";
+            decimal -= Math.pow(8, power) * quotient;
             power--;
         }
         // turning binaryValue into a list:

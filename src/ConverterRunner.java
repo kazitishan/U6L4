@@ -18,7 +18,7 @@ class ConverterRunner {
         s.close();
 
         NumberConverter nc = new NumberConverter(n, base);
-        int[] octal = nc.convertToOctal();
+        int[] octal = nc.convertToBinary();
         System.out.println("\n\nDigit array: " + Arrays.toString(octal));
         System.out.println("Number: " + nc.displayOriginalNumber());
 
