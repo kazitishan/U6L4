@@ -26,8 +26,28 @@ public class NumberConverter {
         return digits;
     }
 
+    private int convertListToInt(int[] list){
+        String listString = "";
+        for (int i = 0; i < list.length; i++){
+            listString += list[i];
+        }
+        int number = Integer.parseInt(listString);
+        return number;
+    }
+
+    private int[] convertStringToList(String string){
+        int[] list = new int[string.length()];
+        for (int i = 0; i < string.length(); i++){
+            String num = string.charAt(i) + "";
+            int digit = Integer.parseInt(num);
+            list[i] = digit;
+        }
+        return list;
+    }
+
     public int[] convertToDecimal() {
         int decimalValue = 0;
+        // finding the decimal value of the number:
         if (base == 2){
             int value = 1;
             for (int i = digits.length - 1; i >= 0; i--){
@@ -42,26 +62,62 @@ public class NumberConverter {
                 value *= 8;
             }
         }
-
         // turning the number into a list
         String numberAsString = decimalValue + "";
-        int[] newDigits = new int[(decimalValue + "").length()];
-        for (int i = 0; i < (decimalValue + "").length(); i++){
-            String num = numberAsString.charAt(i) + "";
-            int digit = Integer.parseInt(num);
-            newDigits[i] = digit;
-        }
-        digits = newDigits;
-        return digits;
+        int[] newDigits = convertStringToList(numberAsString);
+        return newDigits;
     }
 
     public int[] convertToBinary() {
-
-        return null;
+        String binaryValue = "";
+        // making sure everything in the list is in decimal form:
+        int[] decimalDigits = digits;
+        if (base == 8) decimalDigits = convertToDecimal();
+        // turning the list into an int:
+        int decimal = convertListToInt(decimalDigits);
+        // finding the highest value of 2 that can go into decimal:
+        int power = 0;
+        while (decimal - Math.pow(2, power) >= 0) power++;
+        if (decimal - Math.pow(2, power) < 0) power--;
+        // adding the 1's and 0's to binaryValue:
+        while (power >= 0){
+            if (decimal - Math.pow(2, power) >= 0) {
+                binaryValue += "1";
+                decimal -= Math.pow(2, power);
+            }
+            else binaryValue += "0";
+            power--;
+        }
+        // turning binaryValue into a list:
+        int [] newDigits = convertStringToList(binaryValue);
+        return newDigits;
     }
 
     public int[] convertToOctal() {
-        return null;
+        String octalValue = "";
+        // making sure everything in the list is in decimal form:
+        int[] decimalDigits = digits;
+        if (base == 2) decimalDigits = convertToDecimal();
+        // turning the list into an int:
+        int decimal = convertListToInt(decimalDigits);
+        // finding the highest value of 8 that can go into decimal:
+        int power = 0;
+        while (decimal - Math.pow(8, power) >= 0) power++;
+        if (decimal - Math.pow(8, power) < 0) power--;
+        // adding the numbers to binaryValue:
+        int quotient;
+        while (power >= 0){
+            if (decimal - Math.pow(8, power) >= 0) {
+                quotient = decimal / (int) Math.pow(8, power);
+                octalValue += quotient + "";
+                decimal -= Math.pow(8, power) * quotient;
+            }
+            else octalValue += "0";
+            power--;
+        }
+        // turning binaryValue into a list:
+        int [] newDigits = convertStringToList(octalValue);
+        return newDigits;
     }
 
     public static boolean checkInputs(int base, int num){

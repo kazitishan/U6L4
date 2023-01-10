@@ -18,9 +18,8 @@ class ConverterRunner {
         s.close();
 
         NumberConverter nc = new NumberConverter(n, base);
-        int[] digits = nc.getDigits();
-        nc.convertToDecimal();
-        System.out.println("\n\nDigit array: " + Arrays.toString(digits));
+        int[] octal = nc.convertToOctal();
+        System.out.println("\n\nDigit array: " + Arrays.toString(octal));
         System.out.println("Number: " + nc.displayOriginalNumber());
 
 
