@@ -80,12 +80,11 @@ public class NumberConverter {
         while (decimal - Math.pow(2, power) >= 0) power++;
         if (decimal - Math.pow(2, power) < 0) power--;
         // adding the 1's and 0's to binaryValue:
+        int quotient;
         while (power >= 0){
-            if (decimal - Math.pow(2, power) >= 0) {
-                binaryValue += "1";
-                decimal -= Math.pow(2, power);
-            }
-            else binaryValue += "0";
+            quotient = decimal / (int) Math.pow(2, power);
+            binaryValue += quotient + "";
+            decimal -= Math.pow(2, power) * quotient;
             power--;
         }
         // turning binaryValue into a list:
@@ -112,7 +111,7 @@ public class NumberConverter {
             decimal -= Math.pow(8, power) * quotient;
             power--;
         }
-        // turning binaryValue into a list:
+        // turning octalValue into a list:
         int [] newDigits = convertStringToList(octalValue);
         return newDigits;
     }
@@ -133,5 +132,22 @@ public class NumberConverter {
         return true;
     }
 
+    public String toString(){
+        if (base == 2){
+            int octal = convertListToInt(convertToOctal());
+            int decimal = convertListToInt(convertToDecimal());
+            return "\nOctal Number: " + octal + "\nDecimal Number: " + decimal;
+        }
+        if (base == 8){
+            int binary = convertListToInt(convertToBinary());
+            int decimal = convertListToInt(convertToDecimal());
+            return "\nBinary Number: " + binary + "\nDecimal Number: " + decimal;
+        }
+        else {
+            int binary = convertListToInt(convertToBinary());
+            int octal = convertListToInt(convertToOctal());
+            return "\nBinary Number: " + binary + "\nOctal Number: " + octal;
+        }
+    }
 }
 
