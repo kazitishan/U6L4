@@ -26,7 +26,7 @@ public class NumberConverter {
         return digits;
     }
 
-    private int convertListToInt(int[] list){
+    private static int convertListToInt(int[] list){
         String listString = "";
         for (int i = 0; i < list.length; i++){
             listString += list[i];
@@ -35,7 +35,7 @@ public class NumberConverter {
         return number;
     }
 
-    private int[] convertStringToList(String string){
+    private static int[] convertStringToList(String string){
         int[] list = new int[string.length()];
         for (int i = 0; i < string.length(); i++){
             String num = string.charAt(i) + "";
@@ -68,7 +68,7 @@ public class NumberConverter {
         return newDigits;
     }
 
-    public int[] convertToBinary() {
+    public String convertToBinary() {
         String binaryValue = "";
         // making sure everything in the list is in decimal form:
         int[] decimalDigits = digits;
@@ -87,12 +87,10 @@ public class NumberConverter {
             decimal -= Math.pow(2, power) * quotient;
             power--;
         }
-        // turning binaryValue into a list:
-        int [] newDigits = convertStringToList(binaryValue);
-        return newDigits;
+        return binaryValue;
     }
 
-    public int[] convertToOctal() {
+    public String convertToOctal() {
         String octalValue = "";
         // making sure everything in the list is in decimal form:
         int[] decimalDigits = digits;
@@ -111,42 +109,35 @@ public class NumberConverter {
             decimal -= Math.pow(8, power) * quotient;
             power--;
         }
-        // turning octalValue into a list:
-        int [] newDigits = convertStringToList(octalValue);
-        return newDigits;
+        return octalValue;
     }
 
-    public static boolean checkInputs(int base, int num){
-        String number = num + "";
-        if (base == 2){
-            for (int i = 0; i < number.length(); i++){
-                String currentChar = number.charAt(i) + "";
-                if (!(currentChar.equals("1") || currentChar.equals("0"))) return false;
-            }
+    public static boolean checkInputs(int base, String num){
+        if (base == 0) return false;
+        String values = "0123456789ABCDEF";
+        String baseValues = values.substring(0, base);
+        if (base == 1) baseValues = "1";
+        String[] numberList = new String[num.length()];
+        for (int i = 0; i < numberList.length; i++){
+            numberList[i] = num.substring(i, i + 1);
         }
-        if (base == 8){
-            for (int i = 0; i < number.length(); i++){
-                if (number.charAt(i) > 8) return false;
-            }
+        for (String number : numberList){
+            if (baseValues.indexOf(number) == -1) return false;
         }
         return true;
     }
 
     public String toString(){
         if (base == 2){
-            int octal = convertListToInt(convertToOctal());
             int decimal = convertListToInt(convertToDecimal());
-            return "\nOctal Number: " + octal + "\nDecimal Number: " + decimal;
+            return "\nOctal Number: " + convertToOctal() + "\nDecimal Number: " + decimal;
         }
         if (base == 8){
-            int binary = convertListToInt(convertToBinary());
             int decimal = convertListToInt(convertToDecimal());
-            return "\nBinary Number: " + binary + "\nDecimal Number: " + decimal;
+            return "\nBinary Number: " + convertToBinary() + "\nDecimal Number: " + decimal;
         }
         else {
-            int binary = convertListToInt(convertToBinary());
-            int octal = convertListToInt(convertToOctal());
-            return "\nBinary Number: " + binary + "\nOctal Number: " + octal;
+            return "\nBinary Number: " + convertToBinary() + "\nOctal Number: " + convertToOctal();
         }
     }
 }
